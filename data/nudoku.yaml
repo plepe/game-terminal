@@ -1,0 +1,5 @@
+title: Sudoku
+command: nudoku
+package:
+  debian:
+  - nudoku
