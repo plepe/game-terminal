@@ -1,8 +1,23 @@
 {
+  "name": "game-terminal",
+  "description": "An interface for an old serial terminal (connected to a Raspberry PI) to start several console games and useful utilities, written in NodeJS",
+  "version": "0.0.0",
+  "main": "cli.js",
+  "scripts": {
+    "start": "node cli.js"
+  },
   "dependencies": {
     "reblessed": "^0.1.84"
   },
-  "scripts": {
-    "start": "node cli.js"
-  }
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plepe/game-terminal.git"
+  },
+  "author": "Stephan Bösch-Plepelits <skunk@xover.mud.at>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plepe/game-terminal/issues"
+  },
+  "homepage": "https://github.com/plepe/game-terminal#readme"
 }
