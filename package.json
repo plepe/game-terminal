@@ -4,12 +4,15 @@
   "version": "0.0.0",
   "main": "cli.js",
   "scripts": {
+    "lint": "standard --fix cli.js src/*.js",
     "start": "node cli.js"
   },
   "dependencies": {
     "reblessed": "^0.1.84"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "standard": "^17.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/plepe/game-terminal.git"
