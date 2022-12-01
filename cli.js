@@ -6,7 +6,8 @@ const screen = blessed.screen({
   smartCSR: true
 })
 
-screen.title = 'game-terminal'
+// Disable on VT320 - will irritate screen
+// screen.title = 'game-terminal'
 
 const box = blessed.box({
   top: 'center',
