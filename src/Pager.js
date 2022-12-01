@@ -9,8 +9,6 @@ class Pager extends Events {
 
     this.list = this.options.list
     this.screen = this.options.screen
-    this.searchResults = []
-    this.filterString = ''
   }
 
   show () {
@@ -39,7 +37,10 @@ class Pager extends Events {
     })
     this.screen.append(this.shortHelp)
 
-    this.table = blessed.listtable({
+    const items = this.list.map(a => a.title())
+
+    this.table = blessed.list({
+      items,
       top: 2,
       left: 0,
       right: 0,
@@ -50,13 +51,10 @@ class Pager extends Events {
       scrollbar: true,
       align: 'left',
       style: {
-        border: {
-          fg: 'red'
+        item: {
         },
-        cell: {
-          selected: {
-            bg: 'blue'
-          }
+        selected: {
+          bg: 'blue'
         },
         scrollbar: {
           bg: 'blue'
@@ -66,37 +64,9 @@ class Pager extends Events {
 
     this.screen.append(this.table)
     this.table.focus()
-    this.updateDisplay()
 
-    this.table.key([ 'escape', 'q' ], () => {
-      this.close()
-    })
-    this.table.key([ '/' ], () => {
-      inputTextbox('Search', '', this.screen, (err, result) => {
-        if (err) {
-          throw (err)
-        }
-
-        this.db.search(result, (err, result) => {
-          if (err) {
-            throw (err)
-          }
-
-          this.searchResults = result.map(entry => entry.id)
-
-          if (this.searchResults.length === 0) {
-            return this.updateDisplay()
-          }
-
-          this.selectNextSearchResult()
-        })
-      })
-    })
-    this.table.key([ 'n' ], () => {
-      this.selectNextSearchResult()
-    })
     this.table.key([ 'pagedown' ], () => {
-      let height = this.table.height - 1 // (1 for the header)
+      let height = this.table.height
       let toLast = height - this.table.childOffset - 1
 
       if (toLast === 0) {
@@ -108,10 +78,10 @@ class Pager extends Events {
       this.screen.render()
     })
     this.table.key([ 'pageup' ], () => {
-      let height = this.table.height - 1 // (1 for the header)
+      let height = this.table.height
       let toFirst = this.table.childOffset
 
-      if (this.table.selected <= 1) {
+      if (this.table.selected <= 0) {
         // already at first
       } else if (toFirst === 0) {
         this.table.select(this.table.selected - height)
@@ -122,7 +92,7 @@ class Pager extends Events {
       this.screen.render()
     })
     this.table.key([ 'home' ], () => {
-      this.table.select(1)
+      this.table.select(0)
       this.screen.render()
     })
     this.table.key([ 'end' ], () => {
@@ -130,10 +100,8 @@ class Pager extends Events {
       this.screen.render()
     })
     this.table.on('select', (data) => {
-      let index = this.table.selected - 1
-      let id = this.database[index].id
-
-      this.select(id)
+      let index = this.table.selected
+      this.select(index)
     })
   }
 
@@ -161,32 +129,9 @@ class Pager extends Events {
     this.screen.render()
   }
 
-  select (id) {
-    const app = this.list[id]
-    entry.exec()
-  }
-
-  updateDisplay () {
-    let header = this.options.rows
-      .filter(row => row.pager)
-      .map(row => row.title)
-
-    this.db.search(this.filterString, (err, result) => {
-      if (err) {
-        throw (err)
-      }
-
-      this.database = result
-
-      let data = result.map(entry =>
-        this.options.rows
-          .filter(row => row.pager)
-          .map(row => entry[row.id] || '')
-      )
-
-      this.table.setData([ header ].concat(data))
-      this.screen.render()
-    })
+  select (index) {
+    const app = this.list[index]
+    app.exec(this.screen)
   }
 
   close () {

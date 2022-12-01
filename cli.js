@@ -49,6 +49,9 @@ const list = [
   new App('tetris', yaml.load(fs.readFileSync('data/tetris.yaml').toString()))
 ]
 
-const pager = new Pager({ list, fields: {}, screen })
+const pager = new Pager({ list, fields: [
+{ pager: true, title: 'title' }
+], screen })
+pager.show()
 
 screen.render()
