@@ -28,15 +28,6 @@ class Pager extends Events {
     })
     this.screen.append(line)
 
-    this.shortHelp = blessed.box({
-      top: 0,
-      left: 0,
-      right: 0,
-      height: 1,
-      content: 'q:quit, a:add, r:remove, /,n:search, f:filter'
-    })
-    this.screen.append(this.shortHelp)
-
     const items = this.list.map(a => a.title())
 
     this.table = blessed.list({
