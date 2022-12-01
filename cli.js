@@ -3,6 +3,7 @@ const fs = require('fs')
 const blessed = require('reblessed')
 const yaml = require('js-yaml')
 const App = require('./src/App')
+const Pager = require('./src/Pager')
 
 // Create a screen object.
 const screen = blessed.screen({
@@ -41,8 +42,13 @@ screen.key(['escape', 'q', 'C-c'], function (ch, key) {
 })
 
 screen.key(['r'], function (ch, key) {
-  const app = new App('tetris', yaml.load(fs.readFileSync('data/tetris.yaml').toString()))
   app.exec(screen)
 })
+
+const list = [
+  new App('tetris', yaml.load(fs.readFileSync('data/tetris.yaml').toString()))
+]
+
+const pager = new Pager({ list, fields: {}, screen })
 
 screen.render()

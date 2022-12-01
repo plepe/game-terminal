@@ -1,17 +1,13 @@
-const blessed = require('neo-blessed')
-const ee = require('event-emitter')
+const blessed = require('reblessed')
+const Events = require('events')
 const fs = require('fs')
-const async = require('async')
 
-const Entry = require('./Entry')
-const fileExport = require('./fileExport')
-const inputTextbox = require('./inputTextbox')
-
-class Pager {
+class Pager extends Events {
   constructor (options) {
+    super()
     this.options = options
 
-    this.db = this.options.db
+    this.list = this.options.list
     this.screen = this.options.screen
     this.searchResults = []
     this.filterString = ''
@@ -75,9 +71,6 @@ class Pager {
     this.table.key([ 'escape', 'q' ], () => {
       this.close()
     })
-    this.table.key([ 'insert', 'a' ], () => {
-      this.showEntry(null)
-    })
     this.table.key([ '/' ], () => {
       inputTextbox('Search', '', this.screen, (err, result) => {
         if (err) {
@@ -97,16 +90,6 @@ class Pager {
 
           this.selectNextSearchResult()
         })
-      })
-    })
-    this.table.key([ 'f' ], () => {
-      inputTextbox('Filter', '', this.screen, (err, result) => {
-        if (err) {
-          throw (err)
-        }
-
-        this.filterString = result
-        this.updateDisplay()
       })
     })
     this.table.key([ 'n' ], () => {
@@ -150,21 +133,8 @@ class Pager {
       let index = this.table.selected - 1
       let id = this.database[index].id
 
-      this.showEntry(id)
+      this.select(id)
     })
-    this.table.key([ 'delete', 'r' ], () => {
-      let index = this.table.selected - 1
-      let id = this.database[index].id
-
-      this.db.remove(id, (err) => {
-        if (err) {
-          throw (err)
-        }
-
-        this.updateDisplay()
-      })
-    })
-    this.table.key([ 'x' ], () => this.exportToFile())
   }
 
   selectNextSearchResult () {
@@ -191,22 +161,9 @@ class Pager {
     this.screen.render()
   }
 
-  showEntry (id) {
-    let entry = new Entry(id, {
-      db: this.db,
-      screen: this.screen,
-      rows: this.options.rows
-    })
-
-    entry.show()
-
-    entry.on('update', () => {
-      this.updateDisplay()
-    })
-    entry.on('close', () => {
-      ee.allOff(entry)
-      entry = null
-    })
+  select (id) {
+    const app = this.list[id]
+    entry.exec()
   }
 
   updateDisplay () {
@@ -232,50 +189,6 @@ class Pager {
     })
   }
 
-  exportToFile () {
-    let filename
-    let content
-
-    async.parallel([
-      (callback) => {
-        inputTextbox('Filename', '', this.screen,
-          (err, result) => {
-            filename = result
-            callback(err)
-          }
-        )
-      },
-      (callback) => {
-        fileExport(
-          {
-            db: this.db,
-            type: 'json'
-          },
-          (err, result) => {
-            content = result
-            callback(err)
-          }
-        )
-      }
-    ], (err) => {
-      if (err) {
-        throw (err)
-      }
-
-      fs.writeFile(filename, content, { encoding: 'utf8' },
-        (err) => {
-          if (err) {
-            throw (err)
-          }
-
-          // TODO: notify user about succesful write
-          this.screen.render()
-        }
-      )
-    }
-    )
-  }
-
   close () {
     this.table.destroy()
     this.shortHelp.destroy()
@@ -284,7 +197,5 @@ class Pager {
     this.emit('close')
   }
 }
-
-ee(Pager.prototype)
 
 module.exports = Pager
