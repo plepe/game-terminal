@@ -8,6 +8,7 @@
     "start": "node cli.js"
   },
   "dependencies": {
+    "js-yaml": "^4.1.0",
     "reblessed": "^0.1.84"
   },
   "devDependencies": {

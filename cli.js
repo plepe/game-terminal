@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+const fs = require('fs')
 const blessed = require('reblessed')
+const yaml = require('js-yaml')
+const App = require('./src/App')
 
 // Create a screen object.
 const screen = blessed.screen({
@@ -35,6 +38,11 @@ screen.append(box)
 
 screen.key(['escape', 'q', 'C-c'], function (ch, key) {
   return process.exit(0)
+})
+
+screen.key(['r'], function (ch, key) {
+  const app = new App('tetris', yaml.load(fs.readFileSync('data/tetris.yaml').toString()))
+  app.exec(screen)
 })
 
 screen.render()
