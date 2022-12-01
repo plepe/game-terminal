@@ -9,6 +9,7 @@ module.exports = class App {
   }
 
   exec (screen) {
+    screen.setTerminal(screen.program._terminal)
     screen.spawn(this.data.command, [], { stdio: 'inherit' })
   }
 }
