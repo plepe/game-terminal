@@ -56,9 +56,9 @@ class Pager extends Events {
     this.screen.append(this.table)
     this.table.focus()
 
-    this.table.key([ 'pagedown' ], () => {
-      let height = this.table.height
-      let toLast = height - this.table.childOffset - 1
+    this.table.key(['pagedown'], () => {
+      const height = this.table.height
+      const toLast = height - this.table.childOffset - 1
 
       if (toLast === 0) {
         this.table.select(this.table.selected + height)
@@ -68,9 +68,9 @@ class Pager extends Events {
 
       this.screen.render()
     })
-    this.table.key([ 'pageup' ], () => {
-      let height = this.table.height
-      let toFirst = this.table.childOffset
+    this.table.key(['pageup'], () => {
+      const height = this.table.height
+      const toFirst = this.table.childOffset
 
       if (this.table.selected <= 0) {
         // already at first
@@ -82,16 +82,16 @@ class Pager extends Events {
 
       this.screen.render()
     })
-    this.table.key([ 'home' ], () => {
+    this.table.key(['home'], () => {
       this.table.select(0)
       this.screen.render()
     })
-    this.table.key([ 'end' ], () => {
+    this.table.key(['end'], () => {
       this.table.select(this.table.items.length - 1)
       this.screen.render()
     })
     this.table.on('select', (data) => {
-      let index = this.table.selected
+      const index = this.table.selected
       this.select(index)
     })
   }
