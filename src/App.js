@@ -11,6 +11,7 @@ module.exports = class App {
   }
 
   exec (screen) {
+    this.screen = screen
     const height = this.data.instructions ? this.data.instructions.split(/\n/).length - 1 : 0
 
     const instructions = blessed.box({
@@ -34,13 +35,13 @@ module.exports = class App {
       content: ' C-c: Quit - C-f: Fullscreen '
     })
 
+    this.elements = [instructions, line, text]
+
     if (height) {
-      screen.append(instructions)
-      screen.append(line)
-      screen.append(text)
+      this.elements.forEach(e => screen.append(e))
     }
 
-    const term = blessed.terminal({
+    this.term = blessed.terminal({
       parent: screen,
       label: 'test',
       top: height + (height ? 1 : 0),
@@ -50,35 +51,31 @@ module.exports = class App {
       shell: this.data.command || '/bin/bash',
       cursor: 'block'
     })
-    term.focus()
-    term.on('exit', () => {
-      term.destroy()
-      line.destroy()
-      text.destroy()
-      instructions.destroy()
-      screen.render()
-    })
+    this.term.focus()
+    this.term.on('exit', () => this.close())
 
     if (height) {
-      term.key(['C-f'], () => {
-        if (term.top > 0) {
-          term.top = 0
-          screen.remove(instructions)
-          screen.remove(line)
-          screen.remove(text)
+      this.term.key(['C-f'], () => {
+        if (this.term.top > 0) {
+          this.term.top = 0
+          this.elements.forEach(e => screen.remove(e))
         } else {
-          term.top = height + (height ? 1 : 0)
-          screen.append(instructions)
-          screen.append(line)
-          screen.append(text)
+          this.term.top = height + (height ? 1 : 0)
+          this.elements.forEach(e => screen.append(e))
         }
-        term.emit('resize')
+        this.term.emit('resize')
         screen.render()
       })
     }
 
-    term.key(['C-c'], () => {
-      term.destroy()
+    this.term.key(['C-c'], () => {
+      this.term.destroy()
     })
+  }
+
+  close () {
+    this.term.destroy()
+    this.elements.forEach(e => e.destroy())
+    this.screen.render()
   }
 }
