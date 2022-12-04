@@ -94,6 +94,9 @@ class Pager extends Events {
       const index = this.table.selected
       this.select(index)
     })
+    this.table.key(['escape', 'q'], function (ch, key) {
+      return process.exit(0)
+    })
   }
 
   selectNextSearchResult () {

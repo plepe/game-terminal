@@ -11,14 +11,6 @@ const screen = blessed.screen({
 // Disable on VT320 - will irritate screen
 // screen.title = 'game-terminal'
 
-screen.key(['escape', 'q', 'C-c'], function (ch, key) {
-  return process.exit(0)
-})
-
-screen.key(['r'], function (ch, key) {
-  app.exec(screen)
-})
-
 loadList()
   .then(list => {
     //    if (err) {
