@@ -5,7 +5,7 @@ let charmap = 'UTF-8'
 
 module.exports = function (str) {
   if (charmap !== 'UTF-8') {
-    return iconv.encode(str, charmap)
+    return iconv.encode(str, charmap).toString()
   }
 
   return str
