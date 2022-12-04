@@ -55,6 +55,7 @@ module.exports = class App {
       right: 0,
       bottom: 0,
       shell: this.data.command || '/bin/bash',
+      args: this.config.args || this.data.args,
       cursor: 'block'
     })
     this.term.focus()
