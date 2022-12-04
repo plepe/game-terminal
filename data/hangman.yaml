@@ -1,0 +1,5 @@
+title: Hangman
+command: /usr/games/hangman
+package:
+  debian:
+  - bsdgames

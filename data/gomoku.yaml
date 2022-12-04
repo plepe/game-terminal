@@ -1,0 +1,5 @@
+title: Gomoku
+command: /usr/games/gomoku
+package:
+  debian:
+  - bsdgames

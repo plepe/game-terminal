@@ -1,0 +1,5 @@
+title: Worm
+command: /usr/games/worm
+package:
+  debian:
+  - bsdgames

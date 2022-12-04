@@ -1,0 +1,9 @@
+title: Figlet
+instructions: |
+  figlet [-f Schriftart] Text
+  Schriftarten: banner, big, block, bubble, digital, lean, mini, script,
+  shadow, slant, small, smscript, smshadow, smslant
+terminal: true
+package:
+  debian:
+  - bsdgames
