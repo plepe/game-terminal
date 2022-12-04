@@ -9,7 +9,7 @@ module.exports = class App {
   }
 
   title () {
-    return this.data.title
+    return this.data.title + (this.data.description ? ' (' + this.data.description + ')' : '')
   }
 
   exec (screen) {
