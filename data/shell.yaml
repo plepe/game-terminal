@@ -1,2 +1,3 @@
 title: Shell
-command: bash
+instructions: |
+  Gib 'exit' ein, um zur Auswahl zurückzukommen.
