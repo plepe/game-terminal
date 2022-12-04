@@ -2,6 +2,10 @@
 const blessed = require('reblessed')
 const Pager = require('./src/Pager')
 const loadList = require('./src/loadList')
+const recode = require('./src/recode')
+recode.init((err) => {
+  if (err) { console.error(err) }
+})
 
 // Create a screen object.
 const screen = blessed.screen({
