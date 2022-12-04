@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "reblessed": "^0.1.84"
+    "pty.js": "npm:node-pty@^0.10.1",
+    "reblessed": "^0.1.84",
+    "term.js": "^0.0.7"
   },
   "devDependencies": {
     "standard": "^17.0.0"
