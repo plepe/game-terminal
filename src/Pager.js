@@ -1,7 +1,6 @@
 const blessed = require('reblessed')
 const Events = require('events')
 const fs = require('fs')
-const recode = require('./recode')
 
 class Pager extends Events {
   constructor (options) {
@@ -29,7 +28,7 @@ class Pager extends Events {
     })
     this.screen.append(line)
 
-    const items = this.list.map(a => recode(a.title()))
+    const items = this.list.map(a => a.title())
 
     this.table = blessed.list({
       items,
