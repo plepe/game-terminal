@@ -11,6 +11,10 @@ module.exports = class App {
   }
 
   exec (screen) {
+    if (this.term) {
+      return this.foreground()
+    }
+
     this.screen = screen
     const height = this.data.instructions ? this.data.instructions.split(/\n/).length - 1 : 0
 
@@ -32,7 +36,7 @@ module.exports = class App {
     const text = blessed.Text({
       top: height,
       right: 2,
-      content: ' C-c: Quit - C-f: Fullscreen '
+      content: (this.data.background ? ' C-c: Background -' : '') + ' C-c: Quit - C-f: Fullscreen '
     })
 
     this.elements = [instructions, line, text]
@@ -68,9 +72,26 @@ module.exports = class App {
       })
     }
 
+    if (this.data.background) {
+      this.term.key(['C-b'], () => this.background())
+    }
+
     this.term.key(['C-c'], () => {
       this.term.destroy()
     })
+  }
+
+  background () {
+    this.screen.remove(this.term)
+    this.elements.forEach(e => this.screen.remove(e))
+    this.screen.render()
+  }
+
+  foreground () {
+    this.screen.append(this.term)
+    global.setTimeout(() => this.term.focus(), 0)
+    this.elements.forEach(e => this.screen.append(e))
+    this.screen.render()
   }
 
   close () {
@@ -85,5 +106,6 @@ module.exports = class App {
     this.term.destroy()
     this.elements.forEach(e => e.destroy())
     this.screen.render()
+    this.term = null
   }
 }
