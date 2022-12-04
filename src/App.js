@@ -47,6 +47,9 @@ module.exports = class App {
       this.elements.forEach(e => screen.append(e))
     }
 
+    const env = JSON.parse(JSON.stringify(process.env))
+    env.LC_ALL = env.LC_ALL.split('.')[0] + ".UTF-8"
+
     this.term = blessed.terminal({
       parent: screen,
       label: 'test',
@@ -56,6 +59,7 @@ module.exports = class App {
       bottom: 0,
       shell: this.data.command || '/bin/bash',
       args: this.config.args || this.data.args,
+      env: env,
       cursor: 'block'
     })
     this.term.focus()
