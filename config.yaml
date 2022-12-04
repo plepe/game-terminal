@@ -1,3 +1,6 @@
 apps:
   hangman:
 #   args: ['-d', 'hangman-de.txt']
+  nudoku:
+#    Enable no-color mode
+#    args: ['-c']
