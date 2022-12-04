@@ -1,5 +1,6 @@
 title: Worm
 command: /usr/games/worm
+waitAfterExit: true
 package:
   debian:
   - bsdgames

@@ -74,6 +74,14 @@ module.exports = class App {
   }
 
   close () {
+    if (this.data.waitAfterExit) {
+      this.term.key('enter', () => this._close())
+    } else {
+      this._close()
+    }
+  }
+
+  _close () {
     this.term.destroy()
     this.elements.forEach(e => e.destroy())
     this.screen.render()

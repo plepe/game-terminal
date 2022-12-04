@@ -1,5 +1,6 @@
 title: Wargames
 command: /usr/games/wargames
+waitAfterExit: true
 package:
   debian:
   - bsdgames
