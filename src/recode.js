@@ -13,7 +13,11 @@ module.exports = function (str) {
 
 module.exports.init = (callback) => {
   child_process.exec("locale charmap", (err, stdout) => {
+    if (err) { return callback(err) }
+
     charmap = stdout.trim()
-    callback(err)
+    process.stdout.setDefaultEncoding(charmap === 'UTF-8' ? 'utf8' : 'binary')
+
+    callback()
   })
 }
