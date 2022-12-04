@@ -1,8 +1,13 @@
 const child_process = require('child_process')
+const iconv = require('iconv-lite')
 
 let charmap = 'UTF-8'
 
 module.exports = function (str) {
+  if (charmap !== 'UTF-8') {
+    return iconv.encode(str, charmap)
+  }
+
   return str
 }
 

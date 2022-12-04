@@ -8,6 +8,7 @@
     "start": "node cli.js"
   },
   "dependencies": {
+    "iconv-lite": "^0.6.3",
     "js-yaml": "^4.1.0",
     "pty.js": "npm:node-pty@^0.10.1",
     "reblessed": "^0.1.84",
