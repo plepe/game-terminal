@@ -36,7 +36,7 @@ module.exports = class App {
     const term = blessed.terminal({
       parent: screen,
       label: 'test',
-      top: height + 1,
+      top: height + (height ? 1 : 0),
       left: 0,
       right: 0,
       bottom: 0,
