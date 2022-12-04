@@ -50,5 +50,21 @@ module.exports = class App {
       instructions.destroy()
       screen.render()
     })
+
+    if (height) {
+      term.key(['C-f'], () => {
+        if (term.top > 0) {
+          term.top = 0
+          screen.remove(instructions)
+          screen.remove(line)
+        } else {
+          term.top = height + (height ? 1 : 0)
+          screen.append(instructions)
+          screen.append(line)
+        }
+        term.emit('resize')
+        screen.render()
+      })
+    }
   }
 }
