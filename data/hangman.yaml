@@ -1,4 +1,5 @@
 title: Hangman
+description: Wörterraten - Galgenmännchen
 command: /usr/games/hangman
 package:
   debian:

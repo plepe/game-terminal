@@ -1,4 +1,5 @@
-title: Sudoku
+title: Nudoku
+description: Sudoku
 command: nudoku
 package:
   debian:
