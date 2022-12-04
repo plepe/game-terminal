@@ -45,7 +45,7 @@ class Pager extends Events {
         item: {
         },
         selected: {
-          bg: 'blue'
+          inverse: true
         },
         scrollbar: {
           bg: 'blue'
