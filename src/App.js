@@ -28,9 +28,16 @@ module.exports = class App {
       orientation: 'horizontal'
     })
 
+    const text = blessed.Text({
+      top: height,
+      right: 2,
+      content: ' C-c: Quit - C-f: Fullscreen '
+    })
+
     if (height) {
       screen.append(instructions)
       screen.append(line)
+      screen.append(text)
     }
 
     const term = blessed.terminal({
@@ -47,6 +54,7 @@ module.exports = class App {
     term.on('exit', () => {
       term.destroy()
       line.destroy()
+      text.destroy()
       instructions.destroy()
       screen.render()
     })
@@ -57,14 +65,20 @@ module.exports = class App {
           term.top = 0
           screen.remove(instructions)
           screen.remove(line)
+          screen.remove(text)
         } else {
           term.top = height + (height ? 1 : 0)
           screen.append(instructions)
           screen.append(line)
+          screen.append(text)
         }
         term.emit('resize')
         screen.render()
       })
     }
+
+    term.key(['C-c'], () => {
+      term.destroy()
+    })
   }
 }
