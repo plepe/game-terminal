@@ -1,9 +1,11 @@
 const blessed = require('reblessed')
+const config = require('./config')
 
 module.exports = class App {
   constructor (id, data) {
     this.id = id
     this.data = data
+    this.config = config.apps[id] || {}
   }
 
   title () {

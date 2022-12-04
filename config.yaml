@@ -1,0 +1,3 @@
+apps:
+  hangman:
+#   args: ['-d', 'hangman-de.txt']
