@@ -56,7 +56,13 @@ module.exports = class App {
       cursor: 'block'
     })
     this.term.focus()
-    this.term.on('exit', () => this.close())
+    this.term.on('exit', (err) => {
+      if (err) {
+        return this.term.key('enter', () => this._close())
+      }
+
+      this.close()
+    })
 
     if (height) {
       this.term.key(['C-f'], () => {
