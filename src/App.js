@@ -48,7 +48,7 @@ module.exports = class App {
     }
 
     const env = JSON.parse(JSON.stringify(process.env))
-    env.LC_ALL = env.LC_ALL.split('.')[0] + ".UTF-8"
+    env.LC_ALL = (env.LC_ALL || env.LANG).split('.')[0] + ".UTF-8"
 
     this.term = blessed.terminal({
       parent: screen,
