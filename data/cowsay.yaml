@@ -1,0 +1,8 @@
+title: Cowsay
+description: Sprechende Kuh
+instructions: |
+  cowsay [-e Augen (2 Zeichen)] [-T Zunge (2 Zeichen)] Text
+terminal: true
+package:
+  debian:
+  - cowsay
