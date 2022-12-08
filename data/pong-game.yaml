@@ -1,0 +1,6 @@
+title: pong-game
+instructions: |
+  Linker Spieler: 'a' und 'z' | Rechter Spieler: Pfeiltasten
+command: pong-game
+repository: https://github.com/plepe/node-pong-game
+originalRepository: https://github.com/ericbreno/node-pong-game
