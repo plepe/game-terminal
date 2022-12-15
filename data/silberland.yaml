@@ -1,0 +1,6 @@
+title: Silberland
+description: Online Rollenspiel
+command: telnet
+args:
+- silberland.at
+- 4711
